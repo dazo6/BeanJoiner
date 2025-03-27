@@ -15,7 +15,7 @@ public class TestBeanC {
     @JoinerValue("testB")
     private TestBeanB testBeanB;
 
-    @JoinerValue(value = "testD", isGroup = true)
+    @JoinerValue(value = "testD")
     private List<TestBeanD> testBeanDList;
 
     @JoinerKey({"testA", "testB", "testD"})

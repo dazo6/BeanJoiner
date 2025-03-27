@@ -1,10 +1,5 @@
 package com.dazo66;
 
-import com.dazo66.test.TestBeanA;
-import com.dazo66.test.TestBeanB;
-import com.dazo66.test.TestBeanC;
-import com.dazo66.test.TestBeanD;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -27,7 +22,7 @@ public class BeanJoiner {
      * @return
 
      */
-    public static <T, S> T join(T target, S source) {
+    public static <T, S> T joinSingleton(T target, S source) {
         return join(Collections.singletonList(target), Collections.singletonList(source)).get(0);
     }
 
@@ -39,7 +34,7 @@ public class BeanJoiner {
      * @return
 
      */
-    private static <T, S> List<T> join(List<T> target, List<S> source) {
+    public static <T, S> List<T> join(List<T> target, List<S> source) {
         // 判空 这样不用处理
         if (target == null || target.isEmpty() || source == null || source.isEmpty()) {
             return target;
@@ -56,7 +51,7 @@ public class BeanJoiner {
             // 构建原始map
             Map<?, ?> map;
             FieldRelaPair targetFieldFieldRelaPair = targetJoinerMap.get(sourceFieldEntry.getKey());
-            if (targetFieldFieldRelaPair.isGroup()) {
+            if (targetFieldFieldRelaPair.isGroup() || targetFieldFieldRelaPair.getValue().getType() == List.class) {
                 map = listToGroupMap(source, sourceFieldEntry.getValue().getKey(), sourceFieldEntry.getValue().getValue());
             } else {
                 map = listToMap(source, sourceFieldEntry.getValue().getKey(), sourceFieldEntry.getValue().getValue());
